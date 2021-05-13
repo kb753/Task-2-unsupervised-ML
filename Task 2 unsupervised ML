@@ -1,0 +1,138 @@
+
+# import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+import seaborn as sns
+sns.set_palette('husl')
+%matplotlib inline
+# import libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+
+import seaborn as sns
+sns.set_palette('husl')
+%matplotlib inline
+# READING DATASET USING PANDAS
+data = pd.read_csv("C:\\Users\\DELL\\Downloads\Iris.csv")
+print(data)
+   
+data.head(10)
+
+data.isnull()
+
+data.describe
+
+shape=data.shape
+print(shape)
+
+ave_sepal_length=(data['SepalLengthCm'].sum())/(shape[0])
+ave_sepal_length
+
+ave_petal_width=(data['PetalWidthCm'].sum())/(shape[0])
+ave_petal_width
+
+ave_petal_length=(data['PetalLengthCm'].sum())/(shape[0])
+ave_petal_length
+
+ave_sepal_width=(data['SepalWidthCm'].sum())/(shape[0])
+ave_sepal_width
+
+#DATA VISUALIZATION
+g=sns.violinplot(y='Species' ,x='SepalLengthCm' ,data=data,inner='quartile')
+plt.show()
+
+g=sns.violinplot(y='Species' ,x='SepalWidthCm' ,data=data,inner='quartile')
+plt.show()
+
+g=sns.violinplot(y='Species' ,x='PetalLengthCm' ,data=data,inner='quartile')
+plt.show()
+
+g=sns.violinplot(y='Species' ,x='PetalLengthCm' ,data=data,inner='quartile')
+plt.show()
+
+
+
+
+
+#Above plot is used to analysis range from sepal length, sepal width, petal length and petal width of different species. Iris virginica have maximum range and largest sepal length whereas Iris setosa have maximum range and longest sepal width. If we see petal length and width graph, we get to know Iris virginica have maximum range in both petal length and width
+data['Species'].value_counts()
+
+
+sns.scatterplot(x=data['SepalLengthCm'], y=data['SepalWidthCm'], hue=data['Species'])
+
+
+#From the above scatter plot we can see the how length of petal affect width of petal in different species. If we analysis petal length of different species, the order is virginica>versicolor>setosa. And in petal width, the order is virginica>versicolor>setosa.
+sns.lmplot(x='SepalLengthCm', y='SepalWidthCm', hue='Species' ,data=data, height=8, markers=["o","x","^"])
+
+
+sns.lmplot(x='PetalLengthCm', y='PetalWidthCm', hue='Species' ,data=data, height=12, markers=["o","x","^"])
+
+
+#In below graphs we will seperately compare sepal width, length and petal width, length of different species
+sns.boxplot(y='PetalLengthCm' ,x='Species' ,data=data)
+plt.title('Petal Lengths of Iris Species')
+plt.show()
+
+
+sns.boxplot(y='PetalWidthCm' ,x='Species' ,data=data)
+plt.title('Petal Lengths of Iris Species')
+plt.show()
+
+
+sns.boxplot(y='SepalLengthCm' ,x='Species' ,data=data)
+plt.title('Petal Lengths of Iris Species')
+plt.show()
+
+
+sns.boxplot(y='SepalWidthCm' ,x='Species' ,data=data)
+plt.title('Petal Lengths of Iris Species')
+plt.show()
+
+
+sns.pairplot(data=data, hue="Species",palette="Set1")
+plt.show()
+
+
+#Importing Important Libraries
+from mpl_toolkits.mplot3d import Axes3D
+from sklearn.cluster import KMeans
+x=data.iloc[:,:5]
+x
+
+
+#Using K-Mapping for Clustring
+km=KMeans(n_clusters=3)
+km.fit(x)
+km.predict(x)
+labels = km.labels_
+fig = plt.figure(1, figsize=(7,7))
+ax = Axes3D(fig, rect=[0 , 0, 0.95, 1], elev=48, azim=134)
+ax.scatter(x.iloc[:,4:5], x.iloc[:,1:2], x.iloc[:,3:4], c=labels.astype(np.float), edgecolor="c" ,s=50)
+ax.set_xlabel("Petal Width")
+ax.set_ylabel("Sepal Length")
+ax.set_zlabel("Petal Length")
+plt.title("K Means Prediction cluster" , fontsize=14)
+
+Text(0.5, 0.92, 'K Means Prediction cluster')
+
+from sklearn.mixture import GaussianMixture
+gmm = GaussianMixture(n_components=3)
+gmm.fit(x)
+proba_lists = gmm.predict_proba(x)
+
+colored_arrays = np.matrix(proba_lists)
+colores_tuples = [tuple(i.tolist()[0]) for i in colored_arrays]
+fig = plt.figure(1, figsize=(7,7))
+ax = Axes3D(fig, rect=[0 , 0, 0.95, 1], elev=48, azim=134)
+ax.scatter(x.iloc[:,4:5], x.iloc[:,1:2], x.iloc[:,3:4], c=labels.astype(np.float), edgecolor="c" ,s=50)
+ax.set_xlabel("Petal Width")
+ax.set_ylabel("Sepal Length")
+ax.set_zlabel("Petal Length")
+plt.title("K Means Prediction cluster" , fontsize=14)
+
+Text(0.5, 0.92, 'K Means Prediction cluster')
+
+
